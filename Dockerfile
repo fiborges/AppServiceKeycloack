@@ -6,10 +6,6 @@ COPY themes /opt/jboss/keycloak/themes
 
 # Configura variáveis de ambiente para o PostgreSQL
 ENV DB_VENDOR=postgres \
-    DB_ADDR=postgresql-service \
-    DB_DATABASE=keycloak \
-    DB_USER=keycloak \
-    DB_PASSWORD=keycloak123 \
     PROXY_ADDRESS_FORWARDING=true \
     KC_PROXY=passthrough \
     JAVA_OPTS="-Xms512m -Xmx1024m -XX:MetaspaceSize=96M -XX:MaxMetaspaceSize=256m -Djboss.http.port=8080 -Djboss.https.port=8443"
@@ -21,5 +17,3 @@ EXPOSE 8080
 ENTRYPOINT ["/opt/jboss/tools/docker-entrypoint.sh"]
 
 CMD ["-b", "0.0.0.0"]
-
-
