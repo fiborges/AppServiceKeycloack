@@ -1,0 +1,27 @@
+name: Build and Push Docker Image to ACR
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build-and-push:
+    runs-on: ubuntu-latest
+
+    steps:
+      # Passo 1: Clonar o repositório
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      # Passo 2: Fazer login no Azure Container Registry
+      - name: Log in to Azure Container Registry
+        run: echo "${{ secrets.ACR_PASSWORD }}" | docker login ${{ secrets.ACR_LOGIN_SERVER }} -u ${{ secrets.ACR_USERNAME }} --password-stdin
+
+      # Passo 3: Build da imagem Docker
+      - name: Build Docker Image
+        run: docker build -t ${{ secrets.ACR_LOGIN_SERVER }}/appservicekeycloak:latest .
+
+      # Passo 4: Fazer push da imagem para o ACR
+      - name: Push Docker Image to ACR
+        run: docker push ${{ secrets.ACR_LOGIN_SERVER }}/appservicekeycloak:latest
